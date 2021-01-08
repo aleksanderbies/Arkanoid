@@ -11,7 +11,7 @@ public class Arkanoid extends JFrame{
         setSize(600, 800);
         gamePlay = new Game();
         add(gamePlay);
-        setResizable(false);
+        //setResizable(false);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }

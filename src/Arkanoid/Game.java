@@ -16,7 +16,7 @@ public class Game extends JPanel implements MouseMotionListener, ActionListener 
     private Timer timer;
     private int delay = 8;
     private int sliderPosition = 250;
-    private int ballPositionX = 300, ballPositonY = 540, ballDirectionX = -1, ballDirectionY = -2 ;
+    private int ballPositionX = 300, ballPositionY = 540, ballDirectionX = -1, ballDirectionY = -2 ;
     Image background = Toolkit.getDefaultToolkit().getImage("images/bg.png");
     Image title = Toolkit.getDefaultToolkit().getImage("images/title.png");
 
@@ -45,7 +45,7 @@ public class Game extends JPanel implements MouseMotionListener, ActionListener 
 
         //ball
         g.setColor(Color.white);
-        g.fillOval(ballPositionX, ballPositonY, 20, 20);
+        g.fillOval(ballPositionX, ballPositionY, 20, 20);
 
         // title draw
         g.drawImage(title, 5, 5, this);
@@ -74,6 +74,7 @@ public class Game extends JPanel implements MouseMotionListener, ActionListener 
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        play = true;
         sliderPosition = e.getX() - 50;
         if(sliderPosition<13){
             sliderPosition = 13;
@@ -86,6 +87,25 @@ public class Game extends JPanel implements MouseMotionListener, ActionListener 
     @Override
     public void actionPerformed(ActionEvent e) {
         timer.start();
+        if (play==true){
+            if(new Rectangle(ballPositionX, ballPositionY, 20, 20). intersects(new Rectangle(sliderPosition,740, 100, 15))){
+                ballDirectionY *= (-1);
+            }
+            ballPositionX += ballDirectionX;
+            ballPositionY += ballDirectionY;
+            if(ballPositionX < 13){
+                ballDirectionX *= (-1);
+            }
+            if(ballPositionY < 63){
+                ballDirectionY *= (-1);
+            }
+            if(ballPositionX > 570){
+                ballDirectionX *= (-1);
+            }
+            if(ballPositionY>765){
+                play = false;
+            }
+        }
         repaint();
     }
 }
