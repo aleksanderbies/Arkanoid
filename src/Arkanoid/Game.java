@@ -13,12 +13,24 @@ public class Game extends JPanel implements MouseMotionListener, ActionListener 
     private boolean play = false;
     private int score = 0;
 
+    //CONST OF GAME STATUS
+    private static final int BEFORE_GAME_STATE = 1;
+    private static final int IN_GAME_STATE = 2;
+    private static final int LOSE_GAME_STATE = 3;
+    private static final int WIN_GAME_STATE = 4;
+
+    //GAME STATEUS VAR
+    private int gameStatus = BEFORE_GAME_STATE;
+
     private Timer timer;
     private int delay = 8;
     private int sliderPosition = 250;
     private int ballPositionX = 300, ballPositionY = 540, ballDirectionX = -1, ballDirectionY = -2 ;
     Image background = Toolkit.getDefaultToolkit().getImage("images/bg.png");
     Image title = Toolkit.getDefaultToolkit().getImage("images/title.png");
+    Image mouseMove = Toolkit.getDefaultToolkit().getImage("images/move_mouse.png");
+    Image loseGame = Toolkit.getDefaultToolkit().getImage("images/loser.png");
+    Image winGame = Toolkit.getDefaultToolkit().getImage("images/winner.png");
 
     public Game(){
         addMouseMotionListener(this);
@@ -41,7 +53,7 @@ public class Game extends JPanel implements MouseMotionListener, ActionListener 
 
         //slider
         g.setColor(Color.RED);
-        g.fillRect(sliderPosition, 740, 100, 12 );
+        g.fillRect(sliderPosition, 730, 100, 12 );
 
         //ball
         g.setColor(Color.white);
@@ -64,6 +76,32 @@ public class Game extends JPanel implements MouseMotionListener, ActionListener 
         }
         g.setFont(scoreFont);
         g.drawString("Score: " + score, 420, 50);
+
+        switch (gameStatus){
+            case BEFORE_GAME_STATE:
+                g.drawImage(mouseMove, 100, 300, this);
+                break;
+            case IN_GAME_STATE:
+                break;
+            case LOSE_GAME_STATE:
+                g.drawImage(loseGame, 180, 300, this);
+                break;
+            case WIN_GAME_STATE:
+                g.drawImage(winGame, 180, 300, this);
+                break;
+        }
+
+
+
+        //slider
+        g.setColor(Color.RED);
+        g.fillRect(sliderPosition, 730, 100, 12 );
+
+        //ball
+        g.setColor(Color.white);
+        g.fillOval(ballPositionX, ballPositionY, 20, 20);
+
+
         g.dispose();
     }
 
@@ -75,6 +113,10 @@ public class Game extends JPanel implements MouseMotionListener, ActionListener 
     @Override
     public void mouseMoved(MouseEvent e) {
         play = true;
+        if (gameStatus!=LOSE_GAME_STATE && gameStatus!=WIN_GAME_STATE){
+        gameStatus = IN_GAME_STATE;
+        }
+
         sliderPosition = e.getX() - 50;
         if(sliderPosition<13){
             sliderPosition = 13;
@@ -86,8 +128,8 @@ public class Game extends JPanel implements MouseMotionListener, ActionListener 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        timer.start();
         if (play==true){
+            timer.start();
             if(new Rectangle(ballPositionX, ballPositionY, 20, 20). intersects(new Rectangle(sliderPosition,740, 100, 15))){
                 ballDirectionY *= (-1);
             }
@@ -102,7 +144,16 @@ public class Game extends JPanel implements MouseMotionListener, ActionListener 
             if(ballPositionX > 570){
                 ballDirectionX *= (-1);
             }
-            if(ballPositionY>765){
+            if(ballPositionY>745) {
+                ballDirectionY = 0;
+                ballDirectionX = 0;
+                ballPositionY = 745;
+                gameStatus = LOSE_GAME_STATE;
+                play = false;
+            }
+            if (gameStatus == WIN_GAME_STATE){
+                ballDirectionX = 0;
+                ballDirectionY = 0;
                 play = false;
             }
         }
