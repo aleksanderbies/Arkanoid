@@ -2,6 +2,7 @@ package Arkanoid;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseListener;
 
 public class Arkanoid extends JFrame{
     private Game gamePlay;
@@ -10,6 +11,7 @@ public class Arkanoid extends JFrame{
         super.
         setSize(600, 800);
         gamePlay = new Game();
+        gamePlay.addMouseListener(new MouseInput());
         add(gamePlay);
         //setResizable(false);
         setVisible(true);
