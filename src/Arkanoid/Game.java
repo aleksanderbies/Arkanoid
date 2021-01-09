@@ -26,6 +26,7 @@ public class Game extends JPanel implements MouseMotionListener, ActionListener 
     static int sliderPosition = 250;
     static int ballPositionX = 300, ballPositionY = 540, ballDirectionX = -1, ballDirectionY = -2 ;
 
+    // Images
     Image background = Toolkit.getDefaultToolkit().getImage("images/bg.png");
     Image title = Toolkit.getDefaultToolkit().getImage("images/title.png");
     Image mouseMove = Toolkit.getDefaultToolkit().getImage("images/move_mouse.png");
@@ -134,7 +135,7 @@ public class Game extends JPanel implements MouseMotionListener, ActionListener 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (play==true){
+        if (play){
             timer.start();
             if(new Rectangle(ballPositionX, ballPositionY, 20, 20). intersects(new Rectangle(sliderPosition,740, 100, 15))){
                 ballDirectionY *= (-1);

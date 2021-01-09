@@ -4,8 +4,8 @@ import java.awt.*;
 import java.util.Random;
 
 public class Bricks {
-    public int bricks[][];
-    public Color bricksColors[][];
+    public int[][] bricks;
+    public Color[][] bricksColors;
     public int brickWidth = 45;
     public int brickHeight = 20;
 
