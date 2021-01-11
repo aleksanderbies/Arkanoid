@@ -119,12 +119,14 @@ public class Game extends JPanel implements MouseMotionListener, ActionListener 
 
     public void playSound() {
         try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/ping_pong_8bit_beeep.wav"));
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            volume.setValue(-20f);
-            clip.start();
+            if (gameStatus == IN_GAME_STATE) {
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/ping_pong_8bit_beeep.wav"));
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInputStream);
+                FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                volume.setValue(-20f);
+                clip.start();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
