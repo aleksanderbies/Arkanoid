@@ -1,5 +1,9 @@
 package Arkanoid;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -113,6 +117,19 @@ public class Game extends JPanel implements MouseMotionListener, ActionListener 
         g.dispose();
     }
 
+    public void playSound() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/ping_pong_8bit_beeep.wav"));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            volume.setValue(-20f);
+            clip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void mouseDragged(MouseEvent e) {
     }
@@ -139,6 +156,7 @@ public class Game extends JPanel implements MouseMotionListener, ActionListener 
             timer.start();
             if(new Rectangle(ballPositionX, ballPositionY, 20, 20). intersects(new Rectangle(sliderPosition,740, 100, 15))){
                 ballDirectionY *= (-1);
+                playSound();
             }
 
             Collision: for (int i = 0; i < bricks.bricks.length; i++) {
@@ -152,6 +170,7 @@ public class Game extends JPanel implements MouseMotionListener, ActionListener 
 
                         if (ball.intersects(brick)) {
                             bricks.setNewValueToBrick(0, i, j);
+                            playSound();
 
                             if (Color.red.equals(bricks.bricksColors[i][j])) score += 2;
                             else if (Color.green.equals(bricks.bricksColors[i][j])) score += 3;
@@ -199,14 +218,17 @@ public class Game extends JPanel implements MouseMotionListener, ActionListener 
 
             if (ballPositionX < 13) {
                 ballDirectionX *= (-1);
+                playSound();
             }
 
             if (ballPositionY < 63) {
                 ballDirectionY *= (-1);
+                playSound();
             }
 
             if (ballPositionX > 570) {
                 ballDirectionX *= (-1);
+                playSound();
             }
 
             if (ballPositionY > 745) {
