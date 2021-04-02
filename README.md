@@ -17,3 +17,8 @@ Clic LMB to restart the game when ball pass by the player
 
 # License
 MIT
+
+## Status of project: 
+```diff 
++ COMPLETE
+```
